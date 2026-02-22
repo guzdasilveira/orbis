@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orbis — Automatización que escala negocios reales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0F1C35;
+      --navy-mid:   #162240;
+      --navy-light: #1E3056;
+      --navy-card:  #162035;
+      --gold:       #B8943A;
+      --gold-light: #D4AE5A;
+      --gold-glow:  rgba(184,148,58,0.15);
+      --white:      #FFFFFF;
+      --off-white:  #F4F2EE;
+      --cream:      #EDE9E1;
+      --slate:      #8A9AB5;
+      --text-dark:  #1A1A2E;
+      --text-muted: #6B7A96;
+      --border-dark: rgba(255,255,255,0.08);
+      --border-light: rgba(15,28,53,0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; overflow-x: hidden; background: var(--navy); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 64px;
+      height: 72px;
+      background: rgba(15,28,53,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-dark);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+
+    /* Hexagon SVG logo mark */
+    .logo-hex {
+      width: 38px; height: 38px;
+    }
+
+    .nav-wordmark {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 20px;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-wordmark span { color: var(--gold); }
+
+    nav ul {
+      list-style: none;
+      display: flex; gap: 40px; align-items: center;
+    }
+
+    nav ul a {
+      color: var(--slate);
+      text-decoration: none;
+      font-size: 14px; font-weight: 400;
+      transition: color 0.2s;
+      letter-spacing: 0.01em;
+    }
+
+    nav ul a:hover { color: var(--white); }
+
+    .nav-btn {
+      background: var(--gold) !important;
+      color: var(--navy) !important;
+      font-weight: 600 !important; font-size: 14px !important;
+      padding: 9px 22px;
+      border-radius: 7px;
+      transition: background 0.2s !important;
+    }
+    .nav-btn:hover { background: var(--gold-light) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 120px 64px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% -10%, rgba(184,148,58,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 85% 85%, rgba(30,48,86,0.8) 0%, transparent 60%);
+    }
+
+    /* Grid pattern overlay */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 900px; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(184,148,58,0.1);
+      border: 1px solid rgba(184,148,58,0.3);
+      color: var(--gold-light);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 7px 18px; border-radius: 100px;
+      margin-bottom: 36px;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%; background: var(--gold);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.75); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(44px, 6.5vw, 84px);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.0;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold);
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+    }
+
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 19px;
+      color: var(--slate);
+      line-height: 1.65;
+      max-width: 620px;
+      margin-left: auto; margin-right: auto;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex; gap: 16px; justify-content: center;
+      margin-top: 44px;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700; font-size: 15px;
+      padding: 14px 34px; border-radius: 9px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      font-size: 15px;
+      padding: 14px 34px; border-radius: 9px;
+      border: 1px solid var(--border-dark);
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+
+    /* Clients strip */
+    .clients-strip {
+      position: relative; z-index: 2;
+      margin-top: 80px;
+      border-top: 1px solid var(--border-dark);
+      padding-top: 44px;
+      width: 100%; max-width: 860px;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+
+    .clients-label {
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--slate);
+      margin-bottom: 28px;
+    }
+
+    .clients-logos {
+      display: flex; justify-content: center;
+      align-items: center; gap: 48px; flex-wrap: wrap;
+    }
+
+    .client-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 15px;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── PROBLEM STRIP (light) ── */
+    .problem-strip {
+      background: var(--off-white);
+      padding: 80px 64px;
+      text-align: center;
+    }
+
+    .problem-strip p {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: clamp(22px, 3vw, 36px);
+      color: var(--text-dark);
+      max-width: 760px;
+      margin: 0 auto;
+      line-height: 1.4;
+    }
+
+    .problem-strip p strong {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    /* ── PRODUCTS ── */
+    .products { background: var(--off-white); padding: 20px 64px 100px; }
+
+    .products-header { text-align: center; margin-bottom: 64px; }
+
+    .section-tag {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--gold); margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(30px, 4vw, 50px);
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.1;
+    }
+
+    .section-title span { color: var(--gold); }
+
+    .section-desc {
+      margin-top: 18px; font-size: 17px;
+      color: var(--text-muted); max-width: 520px;
+      margin-left: auto; margin-right: auto;
+      line-height: 1.65;
+    }
+
+    /* Product cards */
+    .product-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: 24px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 32px rgba(15,28,53,0.06);
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+
+    .product-card:hover {
+      box-shadow: 0 12px 60px rgba(15,28,53,0.12);
+      transform: translateY(-3px);
+    }
+
+    .product-card.reverse { direction: rtl; }
+    .product-card.reverse > * { direction: ltr; }
+
+    .product-info { padding: 56px 52px; display: flex; flex-direction: column; justify-content: center; }
+
+    .product-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--off-white);
+      border: 1px solid var(--border-light);
+      border-radius: 100px;
+      padding: 5px 14px; margin-bottom: 24px;
+      width: fit-content;
+    }
+
+    .badge-icon { font-size: 14px; }
+    .badge-label { font-size: 12px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    .product-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px; font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 8px; line-height: 1.1;
+    }
+
+    .product-name span { color: var(--gold); }
+
+    .product-tagline {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 17px; color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .product-divider {
+      width: 40px; height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      margin-bottom: 20px;
+    }
+
+    .product-desc {
+      font-size: 15px; color: var(--text-muted);
+      line-height: 1.7; margin-bottom: 28px;
+    }
+
+    .product-features {
+      list-style: none; margin-bottom: 36px;
+    }
+
+    .product-features li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 14px; color: #4A5568;
+      margin-bottom: 10px; line-height: 1.5;
+    }
+
+    .feat-check {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--gold-glow);
+      color: var(--gold);
+      font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    .product-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--navy);
+      color: var(--white);
+      font-weight: 600; font-size: 14px;
+      padding: 12px 26px; border-radius: 9px;
+      text-decoration: none; width: fit-content;
+      transition: background 0.2s, gap 0.2s;
+    }
+    .product-cta:hover { background: var(--navy-light); gap: 12px; }
+    .product-cta-arrow { font-size: 16px; }
+
+    /* Product visual panel */
+    .product-visual {
+      position: relative;
+      overflow: hidden;
+      min-height: 420px;
+    }
+
+    .visual-smartbuild {
+      background: linear-gradient(135deg, #0F1C35 0%, #162240 100%);
+    }
+
+    .visual-reengage {
+      background: linear-gradient(135deg, #1a2744 0%, #0e1c38 100%);
+    }
+
+    .visual-puremind {
+      background: linear-gradient(135deg, #121e30 0%, #1a2a45 100%);
+    }
+
+    /* Dashboard mockup inside card */
+    .mini-dashboard {
+      position: absolute; inset: 24px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+
+    .mini-bar {
+      display: flex; gap: 6px; align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .mini-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .md-red { background: #FF5F57; }
+    .md-yellow { background: #FEBC2E; }
+    .md-green { background: #28C840; }
+
+    .mini-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 12px; color: rgba(255,255,255,0.5);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+
+    .mini-kpis { display: flex; gap: 10px; }
+
+    .mini-kpi {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .mkpi-label { font-size: 9px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .mkpi-value { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--white); }
+    .mkpi-sub { font-size: 10px; color: var(--gold-light); margin-top: 2px; }
+
+    .mini-chart {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 14px;
+      flex: 1;
+    }
+
+    .mini-chart-label { font-size: 9px; color: rgba(255,255,255,0.3); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+    .mini-bars { display: flex; align-items: flex-end; gap: 5px; height: 60px; }
+
+    .mbar {
+      flex: 1; border-radius: 3px 3px 0 0;
+      background: rgba(184,148,58,0.2);
+    }
+    .mbar.hi { background: var(--gold); }
+
+    .mini-alert {
+      background: rgba(184,148,58,0.1);
+      border: 1px solid rgba(184,148,58,0.25);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .alert-icon { font-size: 18px; }
+    .alert-text { font-size: 11px; color: rgba(255,255,255,0.7); line-height: 1.4; }
+    .alert-text strong { color: var(--gold-light); display: block; font-size: 12px; margin-bottom: 2px; }
+
+    .mini-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .mini-row {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .row-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(184,148,58,0.2);
+      color: var(--gold-light); font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .row-info { flex: 1; }
+    .row-name { font-size: 11px; color: var(--white); font-weight: 500; }
+    .row-sub { font-size: 10px; color: var(--slate); }
+
+    .row-tag {
+      font-size: 9px; font-weight: 700; padding: 3px 8px;
+      border-radius: 100px; text-transform: uppercase; letter-spacing: 0.06em;
+    }
+
+    .tag-alert { background: rgba(255,80,80,0.15); color: #FF6B6B; }
+    .tag-ok { background: rgba(80,200,120,0.15); color: #50C878; }
+    .tag-warn { background: rgba(184,148,58,0.2); color: var(--gold-light); }
+
+    /* ── HOW IT WORKS (dark) ── */
+    .how-section {
+      background: var(--navy);
+      padding: 100px 64px;
+      position: relative; overflow: hidden;
+    }
+
+    .how-section::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,148,58,0.06) 0%, transparent 70%);
+    }
+
+    .how-header { text-align: center; margin-bottom: 80px; position: relative; z-index: 1; }
+
+    .how-section .section-title { color: var(--white); }
+    .how-section .section-desc { color: var(--slate); }
+
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      position: relative; z-index: 1;
+    }
+
+    .how-step {
+      background: var(--navy-card);
+      border: 1px solid var(--border-dark);
+      padding: 40px 32px;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .how-step:first-child { border-radius: 20px 0 0 20px; }
+    .how-step:last-child { border-radius: 0 20px 20px 0; }
+    .how-step:hover { background: var(--navy-light); }
+
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 48px; font-weight: 800;
+      color: rgba(184,148,58,0.15);
+      line-height: 1; margin-bottom: 16px;
+    }
+
+    .step-icon { font-size: 28px; margin-bottom: 16px; display: block; }
+
+    .step-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 17px; font-weight: 700;
+      color: var(--white); margin-bottom: 10px;
+    }
+
+    .step-desc { font-size: 14px; color: var(--slate); line-height: 1.6; }
+
+    /* ── TECH STACK (dark) ── */
+    .tech-section {
+      background: var(--navy-mid);
+      border-top: 1px solid var(--border-dark);
+      border-bottom: 1px solid var(--border-dark);
+      padding: 80px 64px;
+    }
+
+    .tech-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+
+    .tech-section .section-title { color: var(--white); text-align: left; }
+    .tech-section .section-tag { text-align: left; }
+    .tech-section .section-desc { text-align: left; margin-left: 0; color: var(--slate); margin-top: 16px; }
+
+    .tech-chips {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px;
+    }
+
+    .tech-chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border-dark);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 13px; font-weight: 500; color: var(--slate);
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .tech-chip:hover { border-color: rgba(184,148,58,0.4); color: var(--gold-light); }
+
+    .chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+    .tech-visual {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+
+    .tech-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 16px;
+      padding: 24px;
+      transition: border-color 0.3s;
+    }
+    .tech-card:hover { border-color: rgba(184,148,58,0.3); }
+
+    .tech-card-icon { font-size: 28px; margin-bottom: 12px; }
+    .tech-card-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .tech-card-desc { font-size: 13px; color: var(--slate); line-height: 1.5; }
+
+    /* ── PRICING (light) ── */
+    .pricing-section { background: var(--cream); padding: 100px 64px; }
+
+    .pricing-section .section-title { color: var(--text-dark); }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 60px;
+      max-width: 1020px; margin-left: auto; margin-right: auto;
+    }
+
+    .price-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 36px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .price-card:hover { transform: translateY(-4px); box-shadow: 0 16px 60px rgba(15,28,53,0.1); }
+
+    .price-card.featured {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .price-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 6px; }
+    .price-card.featured .price-label { color: var(--slate); }
+
+    .price-amount {
+      font-family: 'Syne', sans-serif;
+      font-size: 52px; font-weight: 800; color: var(--text-dark);
+      line-height: 1;
+    }
+
+    .price-card.featured .price-amount { color: var(--white); }
+
+    .price-currency { font-size: 22px; vertical-align: super; font-weight: 400; }
+    .price-per { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+    .price-card.featured .price-per { color: var(--slate); }
+
+    .price-divider { width: 100%; height: 1px; background: var(--border-light); margin: 24px 0; }
+    .price-card.featured .price-divider { background: var(--border-dark); }
+
+    .price-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
+    .price-card.featured .price-desc { color: var(--slate); }
+
+    .price-list { list-style: none; margin-bottom: 32px; }
+    .price-list li { display: flex; gap: 10px; font-size: 14px; color: #4A5568; margin-bottom: 12px; line-height: 1.4; }
+    .price-card.featured .price-list li { color: var(--slate); }
+
+    .pi-check { color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    .price-btn {
+      display: block; text-align: center;
+      padding: 13px; border-radius: 10px;
+      font-weight: 600; font-size: 14px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .price-btn-outline {
+      border: 1.5px solid var(--border-light);
+      color: var(--text-dark);
+    }
+    .price-btn-outline:hover { background: var(--off-white); }
+
+    .price-btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+    .price-btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    /* ── SOCIAL PROOF (dark) ── */
+    .social-section {
+      background: var(--navy);
+      padding: 100px 64px;
+    }
+
+    .social-section .section-title { color: var(--white); }
+
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px; margin-top: 60px;
+    }
+
+    .testi-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 18px;
+      padding: 32px;
+      transition: border-color 0.3s;
+    }
+
+    .testi-card:hover { border-color: rgba(184,148,58,0.3); }
+
+    .testi-stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; margin-bottom: 18px; }
+
+    .testi-quote {
+      font-size: 15px; color: rgba(255,255,255,0.75);
+      line-height: 1.7; margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+
+    .testi-av {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--gold-glow);
+      border: 1px solid rgba(184,148,58,0.3);
+      color: var(--gold-light); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .testi-name { font-weight: 600; font-size: 14px; color: var(--white); }
+    .testi-role { font-size: 12px; color: var(--slate); }
+
+    /* ── CTA (gold gradient) ── */
+    .cta-section {
+      background: linear-gradient(135deg, #0F1C35 0%, #1B2E55 50%, #0F1C35 100%);
+      padding: 120px 64px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,148,58,0.1) 0%, transparent 65%);
+    }
+
+    .cta-section h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(36px, 5vw, 62px); font-weight: 800;
+      color: var(--white); line-height: 1.1;
+      margin-bottom: 20px; position: relative; z-index: 1;
+    }
+
+    .cta-section h2 span { color: var(--gold); }
+
+    .cta-section p {
+      font-size: 18px; color: var(--slate);
+      max-width: 480px; margin: 0 auto 44px;
+      position: relative; z-index: 1; line-height: 1.65;
+    }
+
+    .cta-buttons { display: flex; gap: 16px; justify-content: center; position: relative; z-index: 1; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy-mid);
+      border-top: 1px solid var(--border-dark);
+      padding: 48px 64px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .footer-left { display: flex; align-items: center; gap: 40px; }
+
+    .footer-logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 18px; color: var(--white);
+      letter-spacing: 0.04em;
+    }
+
+    .footer-logo-text span { color: var(--gold); }
+
+    .footer-links { display: flex; gap: 28px; }
+    .footer-links a { font-size: 13px; color: var(--slate); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-copy { font-size: 13px; color: var(--slate); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      nav ul { display: none; }
+      .hero, .problem-strip, .products,
+      .how-section, .tech-section,
+      .pricing-section, .social-section,
+      .cta-section { padding-left: 24px; padding-right: 24px; }
+      .product-card { grid-template-columns: 1fr; }
+      .product-card.reverse { direction: ltr; }
+      .product-visual { min-height: 280px; }
+      .how-steps { grid-template-columns: 1fr 1fr; }
+      .how-step:first-child { border-radius: 20px 0 0 0; }
+      .how-step:last-child { border-radius: 0 0 20px 0; }
+      .tech-inner { grid-template-columns: 1fr; gap: 40px; }
+      .pricing-grid, .testi-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 24px; text-align: center; }
+      .footer-left { flex-direction: column; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <svg class="logo-hex" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 2L36 11V29L20 38L4 29V11L20 2Z" fill="#162240" stroke="#B8943A" stroke-width="1.2"/>
+      <path d="M14 20L18 16H26L22 24H14V20Z" fill="none" stroke="#B8943A" stroke-width="1.4" stroke-linejoin="round"/>
+      <circle cx="20" cy="20" r="3" fill="#B8943A" opacity="0.6"/>
+    </svg>
+    <span class="nav-wordmark">OR<span>B</span>IS</span>
+  </a>
+  <ul>
+    <li><a href="#productos">Productos</a></li>
+    <li><a href="#como">Cómo funciona</a></li>
+    <li><a href="#tech">Tecnología</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#contacto" class="nav-btn">Agendar demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-dot"></span>
+      Automatización · Sistemas a medida · Latam
+    </div>
+    <h1>Construimos sistemas<br>que hacen trabajar<br>a tu negocio <em>solo.</em></h1>
+    <p class="hero-sub">Orbis diseña software especializado para nichos que mueven dinero real. Constructoras, estudios boutique y profesionales de salud. Sin código genérico, sin soluciones para todos.</p>
+    <div class="hero-actions">
+      <a href="#productos" class="btn-gold">Ver nuestros productos →</a>
+      <a href="#como" class="btn-ghost">Cómo funciona</a>
+    </div>
+  </div>
+  <div class="clients-strip">
+    <div class="clients-label">Sectores donde generamos resultados</div>
+    <div class="clients-logos">
+      <span class="client-logo">Construcción</span>
+      <span class="client-logo">·</span>
+      <span class="client-logo">Fitness Boutique</span>
+      <span class="client-logo">·</span>
+      <span class="client-logo">Salud & Bienestar</span>
+      <span class="client-logo">·</span>
+      <span class="client-logo">Retail</span>
+      <span class="client-logo">·</span>
+      <span class="client-logo">Servicios</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM QUOTE -->
+<section class="problem-strip">
+  <p>"La mayoría de los negocios tienen dos problemas: <strong>demasiado desorden</strong> y <strong>demasiada plata que se escapa.</strong> Nosotros resolvemos los dos, con sistemas que trabajan cuando vos no estás."</p>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="productos">
+  <div class="products-header">
+    <div class="section-tag">Nuestros Productos</div>
+    <h2 class="section-title">Tres sistemas.<br><span>Tres nichos. Un estándar.</span></h2>
+    <p class="section-desc">Cada producto fue diseñado desde adentro del nicho, no desde afuera. Por eso resuelven problemas reales.</p>
+  </div>
+
+  <!-- SMARTBUILD -->
+  <div class="product-card">
+    <div class="product-info">
+      <div class="product-badge">
+        <span class="badge-icon">🏗️</span>
+        <span class="badge-label">Plata Pesada · Constructoras</span>
+      </div>
+      <div class="product-name">Smart<span>Build</span></div>
+      <div class="product-tagline">Control total de obra en tiempo real.</div>
+      <div class="product-divider"></div>
+      <p class="product-desc">El capataz saca una foto de la factura del corralón por WhatsApp. SmartBuild la lee, la categoriza y le avisa al dueño antes de que se pase del presupuesto. Cero desorden. Cero pérdidas.</p>
+      <ul class="product-features">
+        <li><span class="feat-check">✓</span> Carga de facturas via WhatsApp con OCR automático</li>
+        <li><span class="feat-check">✓</span> Dashboard de rentabilidad por obra en tiempo real</li>
+        <li><span class="feat-check">✓</span> Alertas de presupuesto antes de que se agote</li>
+        <li><span class="feat-check">✓</span> Control de proveedores y certificaciones</li>
+        <li><span class="feat-check">✓</span> Reportes automáticos para el dueño cada semana</li>
+      </ul>
+      <a href="#contacto" class="product-cta">
+        Ver SmartBuild <span class="product-cta-arrow">→</span>
+      </a>
+    </div>
+    <div class="product-visual visual-smartbuild">
+      <div class="mini-dashboard">
+        <div class="mini-bar">
+          <span class="mini-dot md-red"></span>
+          <span class="mini-dot md-yellow"></span>
+          <span class="mini-dot md-green"></span>
+          <span class="mini-title" style="margin-left:8px">SmartBuild · Obra Norte</span>
+        </div>
+        <div class="mini-kpis">
+          <div class="mini-kpi">
+            <div class="mkpi-label">Presupuesto</div>
+            <div class="mkpi-value">$48k</div>
+            <div class="mkpi-sub">↑ $12k restante</div>
+          </div>
+          <div class="mini-kpi">
+            <div class="mkpi-label">Gastado</div>
+            <div class="mkpi-value">75%</div>
+            <div class="mkpi-sub">⚠ Cemento 80%</div>
+          </div>
+          <div class="mini-kpi">
+            <div class="mkpi-label">Facturas</div>
+            <div class="mkpi-value">34</div>
+            <div class="mkpi-sub">↑ +8 esta semana</div>
+          </div>
+        </div>
+        <div class="mini-alert">
+          <span class="alert-icon">🔔</span>
+          <div class="alert-text">
+            <strong>Alerta de presupuesto</strong>
+            Obra Norte · Cemento alcanzó el 80% del límite. Quedan $2.100.
+          </div>
+        </div>
+        <div class="mini-chart">
+          <div class="mini-chart-label">Gastos últimas 6 semanas</div>
+          <div class="mini-bars">
+            <div class="mbar" style="height:35%"></div>
+            <div class="mbar" style="height:55%"></div>
+            <div class="mbar" style="height:40%"></div>
+            <div class="mbar" style="height:70%"></div>
+            <div class="mbar" style="height:65%"></div>
+            <div class="mbar hi" style="height:80%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RE-ENGAGE PRO -->
+  <div class="product-card reverse">
+    <div class="product-info">
+      <div class="product-badge">
+        <span class="badge-icon">💪</span>
+        <span class="badge-label">Crecimiento · Estudios Boutique</span>
+      </div>
+      <div class="product-name">Re-Engage <span>Pro</span></div>
+      <div class="product-tagline">No más alumnos perdidos para siempre.</div>
+      <div class="product-divider"></div>
+      <p class="product-desc">Si un alumno no va hace 15 días, Re-Engage le manda un cupón automático por WhatsApp. No vendés "software de gestión", vendés alumnos que vuelven solos.</p>
+      <ul class="product-features">
+        <li><span class="feat-check">✓</span> Alerta automática a los 15 días de inactividad</li>
+        <li><span class="feat-check">✓</span> Cupón de descuento personalizado por WhatsApp</li>
+        <li><span class="feat-check">✓</span> Agenda online con reservas y listas de espera</li>
+        <li><span class="feat-check">✓</span> Cobro automático de membresías</li>
+        <li><span class="feat-check">✓</span> Métricas de retención semana a semana</li>
+      </ul>
+      <a href="#contacto" class="product-cta">
+        Ver Re-Engage Pro <span class="product-cta-arrow">→</span>
+      </a>
+    </div>
+    <div class="product-visual visual-reengage">
+      <div class="mini-dashboard">
+        <div class="mini-bar">
+          <span class="mini-dot md-red"></span>
+          <span class="mini-dot md-yellow"></span>
+          <span class="mini-dot md-green"></span>
+          <span class="mini-title" style="margin-left:8px">Re-Engage Pro · Pilates Studio</span>
+        </div>
+        <div class="mini-kpis">
+          <div class="mini-kpi">
+            <div class="mkpi-label">Miembros activos</div>
+            <div class="mkpi-value">183</div>
+            <div class="mkpi-sub">↑ +11 este mes</div>
+          </div>
+          <div class="mini-kpi">
+            <div class="mkpi-label">Recuperados</div>
+            <div class="mkpi-value">7</div>
+            <div class="mkpi-sub">↑ Esta semana</div>
+          </div>
+        </div>
+        <div class="mini-alert">
+          <span class="alert-icon">💬</span>
+          <div class="alert-text">
+            <strong>Re-engagement enviado automáticamente</strong>
+            "Te extrañamos en el reformer 🙌 Acá tenés 20% OFF para tu próxima clase."
+          </div>
+        </div>
+        <div class="mini-list">
+          <div class="mini-row">
+            <div class="row-avatar">LM</div>
+            <div class="row-info">
+              <div class="row-name">Lucía Méndez</div>
+              <div class="row-sub">Sin asistir · 18 días</div>
+            </div>
+            <span class="row-tag tag-alert">Inactiva</span>
+          </div>
+          <div class="mini-row">
+            <div class="row-avatar">FR</div>
+            <div class="row-info">
+              <div class="row-name">Felipe Ruiz</div>
+              <div class="row-sub">Cupón canjeado · hoy</div>
+            </div>
+            <span class="row-tag tag-ok">Volvió ✓</span>
+          </div>
+          <div class="mini-row">
+            <div class="row-avatar">AP</div>
+            <div class="row-info">
+              <div class="row-name">Ana Peralta</div>
+              <div class="row-sub">Sin asistir · 12 días</div>
+            </div>
+            <span class="row-tag tag-warn">En riesgo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PUREMIND CLINICAL -->
+  <div class="product-card">
+    <div class="product-info">
+      <div class="product-badge">
+        <span class="badge-icon">🧠</span>
+        <span class="badge-label">Gestión · Salud & Bienestar</span>
+      </div>
+      <div class="product-name">PureMind <span>Clinical</span></div>
+      <div class="product-tagline">La agenda inteligente para profesionales de la salud.</div>
+      <div class="product-divider"></div>
+      <p class="product-desc">Sin horas muertas, sin olvidos de turno, sin errores de facturación. PureMind centraliza agenda, aranceles, IVA y recordatorios en un sistema seguro y profesional.</p>
+      <ul class="product-features">
+        <li><span class="feat-check">✓</span> Agenda online con confirmación automática</li>
+        <li><span class="feat-check">✓</span> Recordatorio de turno por WhatsApp 24hs antes</li>
+        <li><span class="feat-check">✓</span> Gestión de aranceles e IVA automático</li>
+        <li><span class="feat-check">✓</span> Historial de sesiones por paciente</li>
+        <li><span class="feat-check">✓</span> Datos cifrados y privacidad garantizada</li>
+      </ul>
+      <a href="#contacto" class="product-cta">
+        Ver PureMind Clinical <span class="product-cta-arrow">→</span>
+      </a>
+    </div>
+    <div class="product-visual visual-puremind">
+      <div class="mini-dashboard">
+        <div class="mini-bar">
+          <span class="mini-dot md-red"></span>
+          <span class="mini-dot md-yellow"></span>
+          <span class="mini-dot md-green"></span>
+          <span class="mini-title" style="margin-left:8px">PureMind Clinical · Dra. Vega</span>
+        </div>
+        <div class="mini-kpis">
+          <div class="mini-kpi">
+            <div class="mkpi-label">Turnos esta semana</div>
+            <div class="mkpi-value">22</div>
+            <div class="mkpi-sub">↑ 0 cancelados</div>
+          </div>
+          <div class="mini-kpi">
+            <div class="mkpi-label">Facturado</div>
+            <div class="mkpi-value">$94k</div>
+            <div class="mkpi-sub">IVA incluido</div>
+          </div>
+        </div>
+        <div class="mini-alert" style="background:rgba(100,160,255,0.08);border-color:rgba(100,160,255,0.2)">
+          <span class="alert-icon">📅</span>
+          <div class="alert-text">
+            <strong style="color:#7EB8F7">Recordatorio enviado automáticamente</strong>
+            "Hola Martín, tu turno es mañana a las 15:00. Confirmás asistencia?"
+          </div>
+        </div>
+        <div class="mini-list">
+          <div class="mini-row">
+            <div class="row-avatar">MR</div>
+            <div class="row-info">
+              <div class="row-name">Martín Rodríguez</div>
+              <div class="row-sub">Mañana · 15:00 hs · Sesión 8</div>
+            </div>
+            <span class="row-tag tag-ok">Confirmado</span>
+          </div>
+          <div class="mini-row">
+            <div class="row-avatar">SC</div>
+            <div class="row-info">
+              <div class="row-name">Sofía Correa</div>
+              <div class="row-sub">Mañana · 17:00 hs · Sesión 3</div>
+            </div>
+            <span class="row-tag tag-warn">Pendiente</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="como">
+  <div class="how-header">
+    <div class="section-tag">Proceso</div>
+    <h2 class="section-title" style="color:var(--white)">Empezás a facturar<br><span>en menos de una semana</span></h2>
+    <p class="section-desc">Sin equipos de IT, sin meses de implementación. Así funciona trabajar con Orbis.</p>
+  </div>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="step-num">01</div>
+      <span class="step-icon">📞</span>
+      <div class="step-title">Demo en 30 minutos</div>
+      <p class="step-desc">Agendás una llamada. Te mostramos el sistema en vivo aplicado a tu negocio específico.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-num">02</div>
+      <span class="step-icon">⚙️</span>
+      <div class="step-title">Configuración a medida</div>
+      <p class="step-desc">Adaptamos el sistema a tus procesos, tus nombres, tu forma de trabajar. No vos al software.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-num">03</div>
+      <span class="step-icon">🚀</span>
+      <div class="step-title">Lanzamiento en 5 días</div>
+      <p class="step-desc">Tu equipo empieza a usar el sistema. Capacitación incluida. Soporte directo por WhatsApp.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-num">04</div>
+      <span class="step-icon">📈</span>
+      <div class="step-title">Resultados en 30 días</div>
+      <p class="step-desc">Medimos el impacto real: plata recuperada, horas ahorradas, clientes retenidos. Números reales.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="tech-section" id="tech">
+  <div class="tech-inner">
+    <div>
+      <div class="section-tag">Tecnología</div>
+      <h2 class="section-title" style="color:var(--white);text-align:left">Construido con<br><span>lo mejor del stack</span></h2>
+      <p class="section-desc">No reinventamos la rueda. Usamos las herramientas más potentes del mercado, combinadas de forma inteligente para cada nicho.</p>
+      <div class="tech-chips">
+        <span class="tech-chip"><span class="chip-dot"></span> n8n Automation</span>
+        <span class="tech-chip"><span class="chip-dot"></span> Firebase</span>
+        <span class="tech-chip"><span class="chip-dot"></span> WhatsApp API</span>
+        <span class="tech-chip"><span class="chip-dot"></span> OpenAI OCR</span>
+        <span class="tech-chip"><span class="chip-dot"></span> MercadoPago</span>
+        <span class="tech-chip"><span class="chip-dot"></span> Twilio SMS</span>
+        <span class="tech-chip"><span class="chip-dot"></span> Next.js</span>
+        <span class="tech-chip"><span class="chip-dot"></span> Stripe</span>
+      </div>
+    </div>
+    <div class="tech-visual">
+      <div class="tech-card">
+        <div class="tech-card-icon">⚡</div>
+        <div class="tech-card-name">n8n Automation</div>
+        <p class="tech-card-desc">El motor de automatización. Conecta WhatsApp, bases de datos y cualquier API sin código.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">🔥</div>
+        <div class="tech-card-name">Firebase</div>
+        <p class="tech-card-desc">Base de datos en tiempo real. Lo que pasa en obra se ve en el dashboard en segundos.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">🤖</div>
+        <div class="tech-card-name">IA + OCR</div>
+        <p class="tech-card-desc">Lectura automática de facturas, detección de patrones y alertas inteligentes.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">💬</div>
+        <div class="tech-card-name">WhatsApp API</div>
+        <p class="tech-card-desc">El canal que ya usa todo el mundo. Automatizamos mensajes sin que sientas la diferencia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="precios">
+  <div style="text-align:center">
+    <div class="section-tag">Precios</div>
+    <h2 class="section-title">Inversión clara.<br><span>ROI desde el día 1.</span></h2>
+    <p class="section-desc" style="margin-left:auto;margin-right:auto">30 días de prueba sin cargo. Sin contrato largo. Cancelás cuando querés.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-label">SmartBuild</div>
+      <div class="price-amount"><span class="price-currency">$</span>199</div>
+      <div class="price-per">USD / mes · por obra activa</div>
+      <div class="price-divider"></div>
+      <p class="price-desc">Para constructoras que quieren control total sin contratar a nadie más.</p>
+      <ul class="price-list">
+        <li><span class="pi-check">✓</span> Hasta 3 obras activas simultáneas</li>
+        <li><span class="pi-check">✓</span> Carga de facturas por WhatsApp</li>
+        <li><span class="pi-check">✓</span> Dashboard de rentabilidad</li>
+        <li><span class="pi-check">✓</span> Alertas de presupuesto</li>
+        <li><span class="pi-check">✓</span> Soporte por WhatsApp</li>
+      </ul>
+      <a href="#contacto" class="price-btn price-btn-outline">Probar 30 días gratis</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-label">Re-Engage Pro</div>
+      <div class="price-amount"><span class="price-currency" style="color:var(--gold)">$</span>99</div>
+      <div class="price-per">USD / mes · ilimitado</div>
+      <div class="price-divider"></div>
+      <p class="price-desc">Para estudios boutique que quieren recuperar y retener alumnos sin esfuerzo.</p>
+      <ul class="price-list">
+        <li><span class="pi-check">✓</span> Alumnos ilimitados</li>
+        <li><span class="pi-check">✓</span> Re-engagement automático</li>
+        <li><span class="pi-check">✓</span> Agenda y reservas online</li>
+        <li><span class="pi-check">✓</span> Cobro automático de membresías</li>
+        <li><span class="pi-check">✓</span> Métricas de retención en tiempo real</li>
+      </ul>
+      <a href="#contacto" class="price-btn price-btn-gold">Probar 30 días gratis</a>
+    </div>
+    <div class="price-card">
+      <div class="price-label">PureMind Clinical</div>
+      <div class="price-amount"><span class="price-currency">$</span>79</div>
+      <div class="price-per">USD / mes · por profesional</div>
+      <div class="price-divider"></div>
+      <p class="price-desc">Para psicólogos y profesionales de salud que quieren cero horas muertas.</p>
+      <ul class="price-list">
+        <li><span class="pi-check">✓</span> Agenda inteligente sin solapamientos</li>
+        <li><span class="pi-check">✓</span> Recordatorios automáticos de turno</li>
+        <li><span class="pi-check">✓</span> Gestión de aranceles e IVA</li>
+        <li><span class="pi-check">✓</span> Historial de pacientes encriptado</li>
+        <li><span class="pi-check">✓</span> Soporte prioritario</li>
+      </ul>
+      <a href="#contacto" class="price-btn price-btn-outline">Probar 30 días gratis</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="social-section">
+  <div style="text-align:center">
+    <div class="section-tag">Resultados reales</div>
+    <h2 class="section-title">Lo que dicen los que<br><span>ya automatizaron</span></h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Antes el capataz me mandaba fotos de facturas por WhatsApp y yo las anotaba en una hoja. Ahora el sistema lo hace solo y me dice antes de que me pase del presupuesto. Me ahorré $4.000 en el primer mes."</p>
+      <div class="testi-author">
+        <div class="testi-av">RM</div>
+        <div>
+          <div class="testi-name">Roberto Mancini</div>
+          <div class="testi-role">Constructora Mancini, Montevideo</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Re-Engage recuperó 8 alumnas en el primer mes. Yo no hice nada, el sistema les mandó un mensaje solo. Pago el sistema con lo que recuperé en la primera semana."</p>
+      <div class="testi-author">
+        <div class="testi-av">CV</div>
+        <div>
+          <div class="testi-name">Carolina Vidal</div>
+          <div class="testi-role">Studio Reformer Pilates, Buenos Aires</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Las horas muertas me costaban $800 por mes en ingresos perdidos. Desde que uso PureMind, mis pacientes confirman el turno automáticamente. Las cancelaciones bajaron un 70%."</p>
+      <div class="testi-author">
+        <div class="testi-av">MP</div>
+        <div>
+          <div class="testi-name">Lic. Martina Pereyra</div>
+          <div class="testi-role">Psicóloga, Santiago de Chile</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contacto">
+  <h2>Tu negocio puede<br>trabajar <span>sin vos mirarlo.</span></h2>
+  <p>Agendá una demo de 30 minutos. Te mostramos en vivo cómo aplicamos el sistema a tu negocio específico.</p>
+  <div class="cta-buttons">
+    <a href="https://wa.me/59891477400" class="btn-gold">Agendar demo por WhatsApp →</a>
+    <a href="mailto:hola@orbis.la" class="btn-ghost">Escribirnos</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-logo-text">OR<span>B</span>IS</div>
+    <div class="footer-links">
+      <a href="#productos">Productos</a>
+      <a href="#como">Proceso</a>
+      <a href="#precios">Precios</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2025 Orbis · Guzmán da Silveira · Software Development</div>
+</footer>
+
+</body>
+</html>
