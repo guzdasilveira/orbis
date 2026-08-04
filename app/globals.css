@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    background: theme("colors.navy.DEFAULT");
+    color: theme("colors.cream");
+  }
+
+  ::selection {
+    background: theme("colors.gold.DEFAULT");
+    color: theme("colors.void");
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.gold.bright");
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer utilities {
+  .orbit-path-a {
+    offset-path: ellipse(320px 100px at 50% 50%);
+  }
+  .orbit-path-b {
+    offset-path: ellipse(190px 60px at 50% 50%);
+  }
+  @media (max-width: 640px) {
+    .orbit-path-a {
+      offset-path: ellipse(150px 60px at 50% 50%);
+    }
+    .orbit-path-b {
+      offset-path: ellipse(90px 36px at 50% 50%);
+    }
+  }
+}
